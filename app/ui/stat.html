@@ -10,25 +10,11 @@
 <body class="hs-page">
   <main class="review-page">
     <section class="review-controls" aria-label="审阅操作">
-      <div class="top" id="history-toolbar" hidden>
-        <label for="batch-select" class="hs-field-label">审阅批次</label>
-        <select id="batch-select" class="hs-select" aria-label="选择应用审阅面板显示的批次"></select>
-      </div>
-      <div class="toolbar" id="application-toolbar" hidden>
-        <button id="refresh" class="hs-button hs-button--quiet"><svg class="hs-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-1l2 2M18 17a7 7 0 0 1-12 1l-2-2"/></svg><span>刷新当前对话</span></button>
-        <button id="rollback-round" class="hs-button danger" disabled><svg class="hs-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4 3 9l5 5M3 9h10a7 7 0 0 1 0 14"/></svg><span>撤销本轮</span></button>
-      </div>
       <div id="sum" class="review-summary" aria-live="polite"></div>
     </section>
     <div class="status-row"><span class="status-dot" aria-hidden="true"></span><div id="status" role="status">正在连接审阅数据…</div></div>
     <div id="list" class="file-list"></div>
   </main>
-  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
-    <div class="dialog-heading"><span class="hs-badge">恢复确认</span><h2 id="confirm-title">恢复改前版本</h2></div>
-    <p id="confirm-message"></p>
-    <div id="confirm-files"></div>
-    <div class="actions"><button id="cancel-rollback" class="hs-button">取消</button><button id="confirm-rollback" class="hs-button danger danger-confirm">确认恢复</button></div>
-  </dialog>
   <script type="module" src="./assets/review-ui.js"></script>
 </body>
 </html>

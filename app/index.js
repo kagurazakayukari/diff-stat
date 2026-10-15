@@ -13,11 +13,11 @@ export async function setupApp(sdk) {
     catch (error) { await sdk.logger.warn(`diff-stat ${phase}: ${error.code || ''} ${error.message}`); }
     return undefined;
   };
-  await sdk.hooks.onDecision('agent/before-start', observe('回合开始', review.started));
-  await sdk.hooks.onDecision('tools/pre-execute', observe('快照', review.before));
+  await sdk.hooks.onDecision('session/input', observe('用户输入', review.started));
+  await sdk.hooks.onDecision('tools/pre-execute', observe('改前读取', review.before));
   await sdk.hooks.onDecision('tools/post-execute', observe('采集', review.after));
   await sdk.hooks.on('agent/settled', observe('发布', review.settled));
-  await sdk.logger.info('diff-stat 0.25.0 loaded');
+  await sdk.logger.info('diff-stat 0.31.0 loaded');
 }
 
 export default defineApp(setupApp);

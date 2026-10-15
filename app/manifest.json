@@ -2,18 +2,16 @@
   "manifestVersion": 2,
   "id": "diff-stat",
   "name": "改动审阅",
-  "version": "0.25.0",
-  "description": "在应用面板按对话查看历史文件 diff，并确认后回滚最近一轮；不生成对话审阅正文。",
+  "version": "0.31.0",
+  "description": "实时查看当前主对话的最新文件 diff，支持展开收起和主题切换。", 
   "entry": "index.js",
   "capabilities": [
-    "app/hooks.agent-before-start",
+    "app/hooks.session-input",
     "app/hooks.tools-pre-execute",
     "app/hooks.tools-post-execute",
     "app/hooks.observe",
     "app/sessions.read",
-    "app/sessions.manage",
-    "app/resources.read",
-    "app/resources.write"
+    "app/resources.read"
   ],
   "contributes": {
     "settings": {
