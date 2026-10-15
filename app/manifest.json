@@ -1,0 +1,50 @@
+{
+  "manifestVersion": 2,
+  "id": "diff-stat",
+  "name": "改动审阅",
+  "version": "0.25.0",
+  "description": "在应用面板按对话查看历史文件 diff，并确认后回滚最近一轮；不生成对话审阅正文。",
+  "entry": "index.js",
+  "capabilities": [
+    "app/hooks.agent-before-start",
+    "app/hooks.tools-pre-execute",
+    "app/hooks.tools-post-execute",
+    "app/hooks.observe",
+    "app/sessions.read",
+    "app/sessions.manage",
+    "app/resources.read",
+    "app/resources.write"
+  ],
+  "contributes": {
+    "settings": {
+      "title": "改动审阅",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "relativeTo": {
+            "type": "string",
+            "title": "路径基准目录",
+            "description": "相对路径优先以当前对话工作目录为基准，此项用于没有工作目录的对话。",
+            "default": "D:/Hanako"
+          },
+          "appDetails": {
+            "type": "boolean",
+            "title": "应用卡片详细展示",
+            "description": "设置应用审阅面板是否默认展开逐行 diff。", 
+            "default": true
+          }
+        }
+      }
+    },
+    "cards": [
+      {
+        "id": "stat",
+        "title": "改动审阅",
+        "route": "/stat.html",
+        "face": { "image": "assets/face.png" }
+      }
+    ]
+  },
+  "icon": "assets/icon.png",
+  "minAppVersion": "1.1.0-beta"
+}
