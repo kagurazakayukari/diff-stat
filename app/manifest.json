@@ -2,14 +2,13 @@
   "manifestVersion": 2,
   "id": "diff-stat",
   "name": "改动审阅",
-  "version": "0.31.0",
+  "version": "0.33.0",
   "description": "实时查看当前主对话的最新文件 diff，支持展开收起和主题切换。", 
   "entry": "index.js",
   "capabilities": [
     "app/hooks.session-input",
     "app/hooks.tools-pre-execute",
     "app/hooks.tools-post-execute",
-    "app/hooks.observe",
     "app/sessions.read",
     "app/resources.read"
   ],

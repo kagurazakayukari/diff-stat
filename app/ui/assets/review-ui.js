@@ -13,14 +13,6 @@ function status(message, error = false) {
   el('status').textContent = message;
   el('status').classList.toggle('error', error);
 }
-async function api(route, data) {
-  const response = await hana.api.fetch(route, data === undefined ? {} : {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
-  });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || `请求失败 (${response.status})`);
-  return result;
-}
 function lineHtml(line) {
   if (line.k === 'hunk' || line.k === 'notice') return `<div class="${line.k}">${esc(line.t)}</div>`;
   return `<div class="ln ${line.k}"><span class="num">${line.o ?? ''}</span><span class="num">${line.n ?? ''}</span><span class="sign">${line.k === 'add' ? '+' : line.k === 'del' ? '-' : ' '}</span><span class="code">${esc(line.t)}</span></div>`;
@@ -51,9 +43,8 @@ async function load() {
     if (mine !== generation) return;
     if (current.value?.id !== records.current?.id) expanded.clear();
     records = { current: current.value };
-    const prefs = await api('/preferences');
-    if (mine !== generation) return;
-    details = prefs.appDetails !== false;
+    // 展示偏好随最新记录由后端发布，不依赖会过期的页面 HTTP 许可。
+    details = current.value?.appDetails !== false;
     const date = new Date(records.current?.updatedAt ?? NaN);
     const stamp = el('status');
     stamp.removeAttribute('title');

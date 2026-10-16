@@ -94,11 +94,11 @@ export async function createReview(sdk) {
     if (resource.kind !== 'local-file') return String(p).replace(/\\/g, '/');
     return path.relative(owner.cwd || config.relativeTo, p).replace(/\\/g, '/');
   };
-  const publish = async (turn, inProgress) => {
+  const publish = async (turn) => {
     const prefs = await settings();
     await store.set(key(turn.owner.sessionId), {
       id: turn.id, at: turn.at, updatedAt: turn.updatedAt, sessionId: turn.owner.sessionId,
-      inProgress, appDetails: prefs.appDetails !== false,
+      appDetails: prefs.appDetails !== false,
       files: turn.files.map(({ id, file, added, removed, lines, truncated }) => ({ id, file, added, removed, lines, truncated })),
     });
   };
@@ -157,27 +157,10 @@ export async function createReview(sdk) {
       if (patch) Object.assign(file, parsePatch(patch));
       else Object.assign(file, { added: 0, removed: 0, lines: [{ k: 'notice', t: op.error || '缺少可用差异' }], truncated: false });
       op.turn.updatedAt = Date.now();
-      await publish(op.turn, true);
+      await publish(op.turn);
       await sdk.logger.info(`diff-stat: 已更新 ${op.turn.owner.sessionId} 的最新差异，${op.turn.files.length} 个文件`);
     });
   }
 
-  async function settled({ session }) {
-    if (!session?.sessionPath || isChildSession(session)) return;
-    const turn = activeTurns.get(session.sessionPath);
-    if (!turn) return;
-    await locked(turn.owner.sessionId, async () => {
-      if (activeTurns.get(session.sessionPath) !== turn) return;
-      if (turn.files.length) await publish(turn, false);
-      activeTurns.delete(session.sessionPath);
-      operations.delete(session.sessionPath);
-    });
-  }
-
-  async function attachRoutes() {
-    await sdk.routes.register((app) => {
-      app.get('/preferences', async (c) => c.json(await settings()));
-    });
-  }
-  return { started, before, after, settled, attachRoutes, settings };
+  return { started, before, after, settings };
 }
